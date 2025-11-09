@@ -4,6 +4,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ServicePageTemplate from '@/components/ServicePageTemplate';
 
+export const metadata = {
+    title: 'Penetration Testing Services',
+    description: 'Proactively challenge your defenses with real-world attack simulations.',
+};
+
 function PenetrationTestingPage() {
     return (
         <div>

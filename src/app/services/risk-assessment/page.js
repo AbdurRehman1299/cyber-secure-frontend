@@ -4,6 +4,11 @@ import ServicePageTemplate from '@/components/ServicePageTemplate';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+export const metadata = {
+    title: 'Risk Assessment & Analysis',
+    description: 'Understand your vulnerabilities before they become liabilities with our Risk Assessment & Analysis services.',
+}
+
 function RiskAssessmentPage() {
     return (
         <div>

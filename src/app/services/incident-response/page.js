@@ -3,6 +3,11 @@ import ServicePageTemplate from '@/components/ServicePageTemplate';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+export const metadata = {
+    title: 'Incident Response & Forensics',
+    description: 'Rapid, decisive action to contain threats and minimize damage with our Incident Response & Forensics services.',
+};
+
 function IncidentResponsePage() {
     return (
         <div>
@@ -19,7 +24,7 @@ function IncidentResponsePage() {
                 </p>
 
                 <h3>Our IR Lifecycle</h3>
-                <ul>
+                <ul className="list-disc list-inside space-y-2">
                     <li><strong>Containment:</strong> Immediately stopping the spread of the attack.</li>
                     <li><strong>Eradication:</strong> Finding and removing the root cause of the incident.</li>
                     <li><strong>Recovery:</strong> Safely restoring affected systems and services.</li>
