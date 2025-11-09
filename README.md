@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cybersecure Solutions (Next.js)
 
-## Getting Started
+This is a professional website for a cybersecurity consulting firm. It is built using the Next.js App Router, with styling provided by Tailwind CSS.
 
-First, run the development server:
+The project features a clean, professional aesthetic, a fully responsive layout, and a dynamic blog system that is easy to manage.
+
+---
+
+## 🖥️ Pages Included
+
+1.  **Homepage** (`/`)
+2.  **About Us** (`/about`)
+3.  **Service: Risk Assessment** (`/services/risk-assessment`)
+4.  **Service: Pen Testing** (`/services/penetration-testing`)
+5.  **Service: Incident Response** (`/services/incident-response`)
+6.  **Service: Compliance** (`/services/compliance`)
+7.  **Industries** (`/industries`)
+8.  **Careers** (`/careers`)
+9.  **Contact** (`/contact`)
+10. **Blog (Insights)**:
+    * Blog List Page (`/insights`)
+    * Dynamic Post Page (`/insights/[slug]`)
+
+---
+
+## 🛠️ Tech Stack
+
+* **Framework:** Next.js 14+ (App Router)
+* **Styling:** Tailwind CSS
+* **UI Components:** `shadcn/ui` (Button, Card, Label, Input, Textarea)
+* **Icons:** `lucide-react`
+
+---
+
+## 🏁 Getting Started
+
+Follow these steps to get the project running on your local machine.
+
+### 1. Prerequisites
+
+You must have [Node.js](https://nodejs.org/) (version 18 or later) installed.
+
+### 2. Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/AbdurRehman1299/cyber-secure-frontend.git
+    cd cyber-security-frontend
+    ```
+
+2.  Install all project dependencies:
+    ```bash
+    npm install lucide-react
+    ```
+    ```bash
+    npm install framer-motion
+    ```
+    ```bash
+    npx shadcn@latest init
+    ```
+
+### 3. Running the Development Server
+
+Start the local development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
