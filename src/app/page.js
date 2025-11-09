@@ -5,12 +5,14 @@ import Footer from '@/components/Footer';
 import Headers from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Shield, BarChart, Target, Siren } from 'lucide-react';
+import GradientOrb from '@/components/GradientOrb';
 
 function HomePage() {
   return(
     <div>
       <Headers />
       <div className="flex flex-col gap-16 md:gap-24">
+        <GradientOrb />
         {/* Hero Section */}
         <section className="pt-16 md:pt-24 text-center">
           <div className="container mx-auto px-4">
