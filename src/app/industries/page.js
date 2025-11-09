@@ -4,6 +4,11 @@ import Footer from '@/components/Footer';
 import PageTemplate from '@/components/PageTemplate';
 import InfoCard from '@/components/InfoCard';
 
+export const metadata = {
+    title: 'Industries We Serve | CyberSecure Solutions',
+    description: 'Discover how we provide tailored security solutions for various industries including Financial Services, Technology, Healthcare, and more.',
+};
+
 function IndustriesPage() {
     return (
         <div>

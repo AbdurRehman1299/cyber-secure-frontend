@@ -5,6 +5,11 @@ import { Shield, Target, Building } from 'lucide-react';
 import TeamMemberCard from '@/components/TeamMemberCard';
 import PageTemplate from '@/components/PageTemplate';
 
+export const metadata = {
+    title: 'About Us | CyberSecure Solutions',
+    description: 'Learn more about CyberSecure Solutions, our mission, values, and leadership team dedicated to protecting your digital assets.',
+};
+
 function AboutPage() {
     return (
         <div>

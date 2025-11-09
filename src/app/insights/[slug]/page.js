@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { notFound } from 'next/navigation';
@@ -17,8 +17,14 @@ export function getAllPosts() {
   }));
 }
 
+export function getAllPostsSlugs() {
+    return Object.keys(BlogPosts).map(slug => ({
+        params: {slug} 
+    }));
+}
+
 export async function generateStaticParams(){
-    return getAllPosts();
+    return getAllPostsSlugs();
 }
 
 const loadPost = (slug) => {
@@ -29,8 +35,25 @@ const loadPost = (slug) => {
     return postData;
 }
 
-function InsightPostPage({ params }) {
-    const resolvedParams = use(params);
+export async function generateMetadata({ params }) {
+    const resolvedParams = await params;
+    const post = getPostData(resolvedParams.slug);
+
+    if (!post) {
+        return {
+            title: 'Post Not Found | CyberSecure Solutions',
+            description: 'The requested blog post could not be found.',
+        };
+    }
+
+    return {
+        title: post.title + ' | CyberSecure Solutions',
+        description: `Read our latest insight: "${post.title}" authored by ${post.author}.`,
+    };
+}
+
+async function InsightPostPage({ params }) {
+    const resolvedParams = await params;
     const post = loadPost(resolvedParams.slug);
 
     if (!post) {

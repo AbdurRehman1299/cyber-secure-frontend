@@ -4,6 +4,11 @@ import JobOpening from '@/components/JobOpening';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+export const metadata = {
+    title: 'Careers at CyberSecure Solutions',
+    description: 'Join our team and help build a more secure digital future. Explore open positions and apply today!',
+}
+
 function CareersPage() {
     return (
         <div>

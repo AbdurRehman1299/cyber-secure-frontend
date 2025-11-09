@@ -5,6 +5,11 @@ import Footer from '@/components/Footer';
 import PageTemplate from '@/components/PageTemplate';
 import BlogPostCard from '@/components/BlogPostCard';
 
+export const metadata = {
+    title: 'Our Insights | CyberSecure Solutions',
+    description: 'Stay updated with the latest cybersecurity research, trends, and expert analysis from CyberSecure Solutions.',
+}
+
 const getAllPosts = () => Posts;
 
 function InsightsPage() {
