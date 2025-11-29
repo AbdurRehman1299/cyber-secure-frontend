@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, {useState} from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,11 +10,50 @@ import PageTemplate from '@/components/PageTemplate';
 import InfoCard from '@/components/InfoCard';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import {CheckCircle2, Loader2, XCircle} from "lucide-react";
 
 function ContactPage() {
-    const handleSubmit = (e) => {
+    const [first_name, setFirstName] = useState("")
+    const [last_name, setLastName] = useState("")
+    const [email, setEmail] = useState("")
+    const [message, setMessage] = useState("")
+
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState(null)
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted!");
+
+        if(!first_name || !last_name || !email || !message){
+            setSubmitStatus('error');
+            return;
+        }
+
+        setSubmitStatus(null);
+        setIsSubmitting(true);
+
+        try{
+            const response = await fetch('http://localhost:3001/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ first_name, last_name, email, message }),
+            });
+
+            setSubmitStatus('success')
+            console.log("Form submitted: ", { first_name, last_name, email, message });
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setMessage("");
+            console.log("Form submitted!");
+        }catch(error){
+            console.log("Submission failed: ", error);
+            setSubmitStatus('error');
+        }finally{
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -46,27 +85,84 @@ function ContactPage() {
                             <CardDescription>We&apos;ll get back to you within one business day.</CardDescription>
                         </CardHeader>
                         <CardContent>
+                            {submitStatus === 'success' && (
+                                <div className="mb-6 p-4 rounded-md bg-green-50 border border-green-200 flex items-start gap-3">
+                                    <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-medium text-green-800">Message Sent!</h4>
+                                        <p className="text-sm text-green-700">Thank you. Our security team will review your message shortly.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {submitStatus === 'error' && (
+                                <div className="mb-6 p-4 rounded-md bg-red-50 border border-red-200 flex items-start gap-3">
+                                    <XCircle className="w-5 h-5 text-red-600 mt-0.5" />
+                                    <div>
+                                        <h4 className="text-sm font-medium text-red-800">Submission Failed</h4>
+                                        <p className="text-sm text-red-700">Please ensure all fields are filled out correctly and try again.</p>
+                                    </div>
+                                </div>
+                            )}
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="first-name">First Name</Label>
-                                        <Input id="first-name" placeholder="Kevin" required />
+                                        <Input
+                                            id="first-name"
+                                            placeholder="Kevin"
+                                            value={first_name}
+                                            onChange={(e) => setFirstName(e.target.value)}
+                                            required
+                                            disabled={isSubmitting}
+                                        />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="last-name">Last Name</Label>
-                                        <Input id="last-name" placeholder="Peterson" required />
+                                        <Input
+                                            id="last-name"
+                                            placeholder="Peterson"
+                                            value={last_name}
+                                            onChange={(e) => setLastName(e.target.value)}
+                                            required
+                                            disabled={isSubmitting}
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input id="email" placeholder="kevin@company.com" required />
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        placeholder="kevin@company.com"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        disabled={isSubmitting}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="message">How can we help you?</Label>
-                                    <Textarea className="h-90" id="message" placeholder="Tell us about your security needs..." required />
+                                    <Textarea
+                                        className="min-h-[120px]"
+                                        id="message"
+                                        placeholder="Tell us about your security needs..."
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        required
+                                        disabled={isSubmitting}
+                                    />
                                 </div>
-                                <Button type="submit" className="w-full">
-                                    Submit Message
+
+                                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Sending...
+                                        </>
+                                    ) : (
+                                        "Submit Message"
+                                    )}
                                 </Button>
                             </form>
                         </CardContent>

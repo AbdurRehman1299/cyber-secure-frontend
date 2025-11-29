@@ -1,5 +1,4 @@
 import React from 'react';
-import Posts from '@/data/blogData';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PageTemplate from '@/components/PageTemplate';
@@ -7,33 +6,44 @@ import BlogPostCard from '@/components/BlogPostCard';
 
 export const metadata = {
     title: 'Our Insights | CyberSecure Solutions',
-    description: 'Stay updated with the latest cybersecurity research, trends, and expert analysis from CyberSecure Solutions.',
+    description: 'Stay updated with the latest cybersecurity research, trends, and expert analysis.',
 }
 
-const getAllPosts = () => Posts;
+async function getBlogs() {
+    try {
+        const res = await fetch('http://localhost:3001/blogs', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch posts');
+        return res.json();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
 
-function InsightsPage() {
-    const posts = getAllPosts();
+export default async function InsightsPage() {
+    const posts = await getBlogs();
 
     return (
         <div>
             <Header />
             <PageTemplate title="Our Insights" subtitle="The latest in cybersecurity research, trends, and analysis from our experts.">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {posts.map((post) => (
-                        <BlogPostCard
-                            key={post.slug}
-                            title={post.title}
-                            date={post.date}
-                            description={post.description}
-                            href={`/insights/${post.slug}`} // In a real app, this would be handled by Next.js routing
-                        />
-                    ))}
+                    {posts.length > 0 ? (
+                        posts.map((post) => (
+                            <BlogPostCard
+                                key={post.id}
+                                title={post.title}
+                                date={new Date(post.createdAt).toLocaleDateString()}
+                                description={post.description || post.content.substring(0, 100) + "..."}
+                                href={`/insights/${post.slug}`}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-gray-500 col-span-3 text-center">No insights published yet.</p>
+                    )}
                 </div>
             </PageTemplate>
             <Footer />
         </div>
     )
 }
-
-export default InsightsPage;

@@ -1,74 +1,68 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { notFound } from 'next/navigation';
-import BlogPosts from '@/data/postsData';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-export const getPostData = (slug) => {
-    return BlogPosts[slug];
+async function getAllBlogs() {
+    try {
+        const res = await fetch('http://localhost:3001/blogs', {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) {
+            console.error("Backend refused connection");
+            return [];
+        }
+
+        return res.json();
+    } catch (e) {
+        console.error("Failed to fetch blogs:", e);
+        return [];
+    }
 }
 
-export function getAllPosts() {
-  return Object.entries(BlogPosts).map(([slug, data]) => ({
-    slug,
-    ...data,
-  }));
+async function getPostBySlug(slug) {
+    const posts = await getAllBlogs();
+    console.log(`Looking for: ${slug}`, posts.map(p => p.slug));
+    return posts.find((p) => p.slug === slug);
 }
 
-export function getAllPostsSlugs() {
-    return Object.keys(BlogPosts).map(slug => ({
-        params: {slug} 
+export async function generateStaticParams() {
+    const posts = await getAllBlogs();
+    return posts.map((post) => ({
+        slug: post.slug,
     }));
 }
 
-export async function generateStaticParams(){
-    return getAllPostsSlugs();
-}
-
-const loadPost = (slug) => {
-    const postData = getPostData(slug);
-    if (!postData) {
-        notFound();
-    }
-    return postData;
-}
-
 export async function generateMetadata({ params }) {
-    const resolvedParams = await params;
-    const post = getPostData(resolvedParams.slug);
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         return {
             title: 'Post Not Found | CyberSecure Solutions',
-            description: 'The requested blog post could not be found.',
         };
     }
 
     return {
         title: post.title + ' | CyberSecure Solutions',
-        description: `Read our latest insight: "${post.title}" authored by ${post.author}.`,
+        description: `Read our latest insight by ${post.author}.`,
     };
 }
 
-async function InsightPostPage({ params }) {
-    const resolvedParams = await params;
-    const post = loadPost(resolvedParams.slug);
+export default async function InsightPostPage({ params }) {
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         return (
             <div className="container mx-auto px-4 py-16 md:py-24">
-                <div className="max-w-3xl mx-auto">
-                    <Button asChild variant="link" className="p-0 text-gray-600 mb-8">
-                        <Link href="/insights">
-                            &larr; Back to all insights
-                        </Link>
+                <div className="max-w-3xl mx-auto text-center">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4">Post Not Found</h1>
+                    <Button asChild variant="link" className="p-0 text-blue-600">
+                        <Link href="/insights">&larr; Back to all insights</Link>
                     </Button>
-                    <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Post Not Found
-                    </h1>
-                    <p>Sorry, this blog post could not be found.</p>
                 </div>
             </div>
         )
@@ -88,11 +82,11 @@ async function InsightPostPage({ params }) {
 
                     {/* Post Header */}
                     <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4">{post.title}</h1>
-                    {post.date && (
-                        <p className="text-gray-500 text-sm mb-6">
-                            Posted on {post.date} by {post.author}
-                        </p>
-                    )}
+                    <div className="flex gap-2 text-gray-500 text-sm mb-6">
+                        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                        <span>•</span>
+                        <span>By {post.author}</span>
+                    </div>
 
                     {/* Post Content */}
                     <div className="text-lg text-gray-700 leading-relaxed
@@ -111,5 +105,3 @@ async function InsightPostPage({ params }) {
         </div>
     )
 }
-
-export default InsightPostPage;

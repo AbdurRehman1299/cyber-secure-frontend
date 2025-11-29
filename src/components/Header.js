@@ -92,6 +92,11 @@ function Header() {
                     {/* Mobile Menu Button & Contact Button */}
                     <div className="flex items-center gap-2">
                         <Button asChild className="hidden lg:inline-flex">
+                            <Link href="/login" onClick={handleNavigate}>
+                                Login
+                            </Link>
+                        </Button>
+                        <Button asChild className="hidden lg:inline-flex">
                             <Link href="/contact" onClick={handleNavigate}>
                                 Contact Us
                             </Link>
