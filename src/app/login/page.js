@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function LoginPage() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -17,7 +18,7 @@ export default function LoginPage() {
         setError("");
 
         try {
-            const res = await fetch("http://localhost:3001/auth/login", {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
