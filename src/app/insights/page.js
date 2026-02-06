@@ -10,8 +10,9 @@ export const metadata = {
 }
 
 async function getBlogs() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
-        const res = await fetch('http://localhost:3001/blogs', { cache: 'no-store' });
+        const res = await fetch(`${API_URL}/blogs`, { cache: 'no-store' });
         if (!res.ok) throw new Error('Failed to fetch posts');
         return res.json();
     } catch (error) {

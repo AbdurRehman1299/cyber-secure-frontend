@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 
 export default function ClientDashboard() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const { user, logout } = useContext(AuthContext);
 
     const [myInquiries, setMyInquiries] = useState([]);
@@ -18,7 +19,7 @@ export default function ClientDashboard() {
     const fetchMyData = async () => {
         if (user?.email) {
             try {
-                const res = await fetch(`http://localhost:3001/inquiries?email=${user.email}`);
+                const res = await fetch(`${API_URL}/inquiries?email=${user.email}`);
                 const data = await res.json();
                 setMyInquiries(data);
                 setLoading(false);
@@ -36,7 +37,7 @@ export default function ClientDashboard() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:3001/inquiries", {
+            const res = await fetch(`${API_URL}/inquiries`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

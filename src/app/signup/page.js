@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function SignupPage() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const [formData, setFormData] = useState({ name: "", email: "", password: "" });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
@@ -17,7 +18,7 @@ export default function SignupPage() {
         setError("");
 
         try {
-            const res = await fetch("http://localhost:3001/user/signup", {
+            const res = await fetch(`${API_URL}/user/signup`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

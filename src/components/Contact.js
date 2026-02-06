@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import {CheckCircle2, Loader2, XCircle} from "lucide-react";
 
 function ContactPage() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const [first_name, setFirstName] = useState("")
     const [last_name, setLastName] = useState("")
     const [email, setEmail] = useState("")
@@ -33,7 +34,7 @@ function ContactPage() {
         setIsSubmitting(true);
 
         try{
-            const response = await fetch('http://localhost:3001/contact', {
+            const response = await fetch(`${API_URL}/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

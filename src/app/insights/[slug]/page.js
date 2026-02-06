@@ -5,8 +5,9 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 async function getAllBlogs() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
-        const res = await fetch('http://localhost:3001/blogs', {
+        const res = await fetch(`${API_URL}/blogs`, {
             cache: 'no-store'
         });
 

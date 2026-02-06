@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 
 export default function AdminDashboard() {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const { user, logout } = useContext(AuthContext);
 
     const [inquiries, setInquiries] = useState([]);
@@ -19,7 +20,7 @@ export default function AdminDashboard() {
     // 1. FETCH DATA (The useEffect Way)
     const fetchInquiries = async () => {
         try {
-            const res = await fetch("http://localhost:3001/inquiries");
+            const res = await fetch(`${API_URL}/inquiries`);
             const data = await res.json();
             setInquiries(data);
             setLoading(false);
@@ -37,7 +38,7 @@ export default function AdminDashboard() {
     // 2. CREATE BLOG POST
     const handlePostBlog = async () => {
         try {
-            const res = await fetch("http://localhost:3001/blogs", {
+            const res = await fetch(`${API_URL}/blogs`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ...blogData, author: user?.name || "Admin" }),
