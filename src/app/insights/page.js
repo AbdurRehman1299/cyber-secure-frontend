@@ -9,6 +9,8 @@ export const metadata = {
     description: 'Stay updated with the latest cybersecurity research, trends, and expert analysis.',
 }
 
+export const revalidate = 60;
+
 async function getBlogs() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     try {
